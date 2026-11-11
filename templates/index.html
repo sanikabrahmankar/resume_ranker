@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Ranker</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .dashboard-header { background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%); color: white; padding: 2rem 0; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card { border: none; border-radius: 12px; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); }
+        .table thead { background-color: #f1f3f5; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-header text-center">
+    <h1 class="fw-bold">AI-Powered Resume Ranker</h1>
+    <p class="lead mb-0">Automated NLP Candidate Screening</p>
+</div>
+
+<div class="container mb-5">
+    <div class="row g-4">
+        
+        <!-- Left Column: Input Form -->
+        <div class="col-lg-5">
+            <div class="card p-4 h-100">
+                <h4 class="mb-3 fw-bold">Screen Candidates</h4>
+                <form method="POST" enctype="multipart/form-data">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">Job Description</label>
+                        <textarea class="form-control bg-light" name="job_description" rows="5" required 
+                                  placeholder="Enter the required skills and description...">{{ jd }}</textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary">Upload Resumes (PDF)</label>
+                        <input class="form-control" type="file" name="resumes" accept=".pdf" multiple required>
+                        <div class="form-text">Upload one file at a time or multiple files at once. They will be added to your active leaderboard.</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Analyze & Rank</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Column: Live Leaderboard -->
+        <div class="col-lg-7">
+            <div class="card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold mb-0">Live Leaderboard</h4>
+                    {% if candidates %}
+                    <div>
+                        <a href="/download" class="btn btn-success btn-sm fw-semibold px-3">↓ Export CSV</a>
+                        <a href="/reset" class="btn btn-outline-danger btn-sm fw-semibold ms-2">Start Over</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if candidates %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Target Job</th> <!-- Added Column -->
+                                    <th>Contact</th>
+                                    <th>Missing Key Skills</th>
+                                    <th style="width: 25%;">Match Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in candidates %}
+                                <tr>
+                                    <td class="fw-semibold">
+    <a href="{{ row['S3_Link'] }}" target="_blank" class="text-primary text-decoration-none title-link">
+        {{ row['Candidate'] }} ↗
+    </a>
+</td>
+                                    
+                                    <!-- Added Data Cell for the Job Snippet -->
+                                    <td class="text-secondary fw-semibold" style="font-size: 0.85rem; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ row['Target_Job'] }}">
+                                        {{ row['Target_Job'] }}
+                                    </td>
+
+                                    <td class="text-muted" style="font-size: 0.85rem;">
+                                        <div>📧 {{ row['Email'] }}</div>
+                                        <div>📞 {{ row['Phone'] }}</div>
+                                    </td>
+                                    <td>
+                                        {% if row['Missing_Skills'] == 'None' %}
+                                            <span class="badge bg-success">Perfect Match</span>
+                                        {% else %}
+                                            <span class="badge bg-warning text-dark">{{ row['Missing_Skills'] }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.85rem;">
+                                            <span class="fw-bold">{{ row['Match_Score'] }}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div class="progress-bar {% if row['Match_Score'] > 70 %}bg-success{% elif row['Match_Score'] > 40 %}bg-primary{% else %}bg-danger{% endif %}" 
+                                                 role="progressbar" 
+                                                 style="width: {{ row['Match_Score'] }}%;" 
+                                                 aria-valuenow="{{ row['Match_Score'] }}" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <!-- Empty State Placeholder -->
+                    <div class="text-center text-muted mt-5 pt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-file-earmark-person mb-3 opacity-50" viewBox="0 0 16 16">
+                            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                        <p>Upload a job description and resumes to generate the ranking leaderboard.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+flask
+flask-cors
+python-dotenv
+pymongo
+dnspython
+boto3
+numpy
+sentence-transformers
+spacy
+pypdf
+pdf2image
+pytesseract
+Pillow
+waitress
+
+# load testing (dev only)
+requests
+reportlab
+
+# After install, run once: python -m spacy download en_core_web_sm

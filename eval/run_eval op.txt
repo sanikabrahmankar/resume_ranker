@@ -1,0 +1,30 @@
+(venv) PS D:\SANIKA 2\Internship\Elevate Labs\Project 1> python eval/run_eval.py
+Loading Semantic Model (this takes a few seconds)...
+Could not reach the Hub ([WinError 10054] An existing connection was forcibly closed by the remote host). Using cached commit hash for 'sentence-transformers/all-MiniLM-L6-v2'.
+Loading weights: 100%|████████████████████████████████████████████████████████████████| 103/103 [00:00<00:00, 1314.94it/s]
+'[WinError 10054] An existing connection was forcibly closed by the remote host' thrown while requesting GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates
+Retrying in 1s [Retry 1/5].
+'[WinError 10054] An existing connection was forcibly closed by the remote host' thrown while requesting GET https://huggingface.co/api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates
+Retrying in 2s [Retry 2/5].
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Model loaded successfully!
+config.json: 100%|███████████████████████████████████████████████████████████████████████| 794/794 [00:00<00:00, 1.81MB/s]
+D:\SANIKA 2\Internship\Elevate Labs\Task2\venv\Lib\site-packages\huggingface_hub\file_download.py:149: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\sanik\.cache\huggingface\hub\models--cross-encoder--ms-marco-MiniLM-L-6-v2. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+D:\SANIKA 2\Internship\Elevate Labs\Task2\venv\Lib\site-packages\huggingface_hub\file_download.py:149: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\sanik\.cache\huggingface\hub. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+model.safetensors: downloading bytes: ████████████████████████████████████████████████████████████████| 86.0MB, 3.68MB/s  
+model.safetensors: reconstructing file: 100%|████████████████████████████████████████████████| 90.9MB / 90.9MB, 6.83MB/s  
+Loading weights: 100%|████████████████████████████████████████████████████████████████| 105/105 [00:00<00:00, 1380.09it/s]
+tokenizer_config.json: 100%|█████████████████████████████████████████████████████████| 1.33k/1.33k [00:00<00:00, 2.54MB/s]
+vocab.txt: 100%|███████████████████████████████████████████████████████████████████████| 232k/232k [00:00<00:00, 4.48MB/s]
+tokenizer.json: 100%|██████████████████████████████████████████████████████████████████| 711k/711k [00:00<00:00, 8.62MB/s]
+special_tokens_map.json: 100%|████████████████████████████████████████████████████████████| 132/132 [00:00<00:00, 299kB/s]
+TF-IDF                     NDCG@10, MRR = (np.float64(0.46), np.float64(0.633))
+MiniLM truncated           NDCG@10, MRR = (np.float64(0.82), np.float64(1.0))
+Chunked top-3              NDCG@10, MRR = (np.float64(0.695), np.float64(0.9))
+Chunked max                NDCG@10, MRR = (np.float64(0.771), np.float64(0.9))
+Chunked + cross-encoder    NDCG@10, MRR = (np.float64(0.771), np.float64(0.9))
+(venv) PS D:\SANIKA 2\Internship\Elevate Labs\Project 1> 
