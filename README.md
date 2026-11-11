@@ -139,8 +139,3 @@ python eval/run_eval.py
 - Run the worker as a separate process or container. It needs the ML dependencies and OCR binaries, and the API does not.
 - Keep the S3 bucket private, with Block Public Access enabled. The API serves resumes only through pre-signed URLs.
 - Tune `CHUNK_TOKENS`, `CHUNK_OVERLAP`, `TOP_K_CHUNKS`, `WORKER_THREADS` and `MAX_FILES_PER_UPLOAD` through environment variables.
-
-## Author
-
-**Sanika Brahmankar**, Computer Engineering, MES Wadia College of Engineering, Pune
-Internship project at **Elevate Labs**
